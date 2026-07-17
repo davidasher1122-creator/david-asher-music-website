@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>David Asher Music - Mixing | Mastering | Engineering</title>
+    <meta name="description" content="David Asher Music. Mixing, mastering and engineering." />
+    <meta name="theme-color" content="#116dff" />
+    <link rel="icon" href="assets/favicon.png" type="image/png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&family=Oswald:wght@400;500&family=Questrial&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/styles.css" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org/",
+        "@type": "LocalBusiness",
+        "name": "David Asher Music",
+        "url": "https://davidasher1122.wixsite.com/david-asher-music",
+        "description": "Mixing, mastering and engineering.",
+        "address": { "@type": "PostalAddress", "addressRegion": "NJ", "addressCountry": "US" }
+      }
+    </script>
+  </head>
+  <body>
+    <div class="boot-loader" aria-hidden="true">
+      <div class="boot-loader__inner">
+        <div class="boot-loader__bars">
+          <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+        </div>
+        <p class="boot-loader__label">David Asher Music</p>
+      </div>
+    </div>
+
+    <!-- Background A–E: particle images that dissolve under the mouse -->
+    <div class="bg-stage" aria-hidden="true">
+      <canvas id="bg-canvas"></canvas>
+      <div class="bg-stage__veil"></div>
+    </div>
+
+    <div class="scroll-progress" aria-hidden="true"></div>
+
+    <header class="site-header">
+      <nav class="nav" aria-label="Primary">
+        <a class="logo" href="#top">
+          <img src="assets/wix/logo-mark.png" alt="" width="40" height="40" />
+          <span>
+            David Asher Music
+            <span>Mixing · Mastering · Engineering</span>
+          </span>
+        </a>
+        <ul class="nav__links">
+          <li><a href="#about">About</a></li>
+          <li><a href="#portfolio">Portfolio</a></li>
+          <li><a href="#signup">Sign up</a></li>
+        </ul>
+        <button class="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="nav-drawer">
+          <span></span><span></span><span></span>
+        </button>
+      </nav>
+    </header>
+
+    <div class="nav-drawer" id="nav-drawer">
+      <a href="#about">About</a>
+      <a href="#portfolio">Portfolio</a>
+      <a href="#signup">Sign up</a>
+    </div>
+
+    <main id="top">
+      <!-- HERO: main interactive image — majority of screen -->
+      <section class="hero" aria-label="Intro">
+        <div class="hero__stage">
+          <canvas
+            id="hero-canvas"
+            class="hero__canvas"
+            aria-label="Main interactive image — move your mouse to dissolve"
+          ></canvas>
+          <p class="hero__hint">Run your mouse over the image to dissolve it</p>
+          <div class="hero__overlay">
+            <p class="hero__brand">David Asher Music</p>
+            <h1>Mixing · Mastering · Engineering</h1>
+            <p class="hero__tag">New Jersey · Remote</p>
+            <div class="hero__actions">
+              <a class="btn btn--primary" href="#portfolio" data-magnetic>Portfolio</a>
+              <a class="btn btn--ghost btn--on-dark" href="#signup" data-magnetic>Sign up</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ABOUT -->
+      <section class="section" id="about">
+        <div class="wrap">
+          <p class="section__kicker" data-reveal>About</p>
+          <h2 class="section__title" data-reveal>Bio</h2>
+          <div class="about-grid">
+            <div class="portrait" data-reveal data-tilt>
+              <img
+                src="assets/custom/profile-photo.jpg"
+                alt="David Asher"
+                width="800"
+                height="800"
+                loading="eager"
+              />
+              <p class="portrait__cap">David Asher · Multi-instrumentalist · Engineer · Producer</p>
+            </div>
+            <div class="bio-collapse" data-collapsed="true" data-reveal data-reveal-delay="1">
+              <div class="prose">
+                <p>
+                  David Asher is a multi-instrumentalist, composer, and producer whose
+                  journey through life has been anything but ordinary. Marked by chaos,
+                  beauty, and moments of darkness, his music is born from the fires of
+                  harsh realities and enlightened personal growth.
+                </p>
+                <p>
+                  Enamored with the piano at a very early age, David discovered early on
+                  the harmonious beauty of the white keys, a revelation that set him on a
+                  path that would define his life. By 11, David had picked up the guitar,
+                  and soon after, the drums, excelling in percussion to the point of
+                  becoming a state and county champion. Starting sophomore year in high
+                  school, he began performing timpani with The Trenton State Orchestra.
+                  David’s accolades during these formative years were numerous, from drum
+                  captain to chamber orchestra conductor, and lead singer and guitarist in
+                  a rock band.
+                </p>
+                <p>
+                  After high school, David’s musical career flourished as he played with
+                  various groups, including the progressive rock band Sandy Gilmour and the
+                  renowned NY music collective STILTS. His move from NJ to NYC allowed him
+                  to live his dream as a working musician, eventually relocating to the
+                  Hamptons where he became a sought-after performer. He played from Montauk
+                  to Sunrise Highway, joining the legendary Long Island band Satchel Boogie
+                  and performing with some of the most talented musicians in the area.
+                </p>
+                <p>
+                  For the next decade, David lived as a professional musician and songwriter
+                  until a tragic accident left him paralyzed from the waist down. Refusing
+                  to be discouraged, David reinvented himself as a mix engineer and producer,
+                  starting his own business. Yet, his passion for composing remained
+                  undiminished. Determined to pursue his love for film and TV scoring, David
+                  found a mentor in Robbie Teehan, a Canadian composer with a prolific career
+                  in media composition.
+                </p>
+                <p>
+                  David’s music is a testament to his life’s experiences, infused with every
+                  ounce of joy and every gallon of pain. His masterful use of motifs,
+                  intricate layering, and breathtaking builds, combined with his exceptional
+                  production skills, make him an invaluable asset for any film score.
+                  <strong>David Asher transforms cinematic visions into unforgettable auditory experiences.</strong>
+                </p>
+              </div>
+              <p style="margin-top: 1.1rem">
+                <button type="button" class="btn btn--ghost btn--sm" data-bio-toggle aria-expanded="false">
+                  Read full bio
+                </button>
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- PORTFOLIO with REAL Bandcamp covers -->
+      <section class="section section--portfolio" id="portfolio">
+        <div class="wrap">
+          <p class="section__kicker" data-reveal>Portfolio</p>
+          <h2 class="section__title" data-reveal>Listen</h2>
+          <p class="section__lede" data-reveal>
+            Explore a curated selection of David’s musical journey. Each track showcases a
+            versatility and passion for music. Dive in, listen, and experience the
+            soundscapes David has crafted. Use the form below to provide feedback.
+          </p>
+
+          <div class="portfolio-grid">
+            <article class="track" data-tilt data-reveal data-reveal-delay="1" style="--playhead: 0%">
+              <div class="track__art">
+                <img src="assets/covers/the-cognoscenti.jpg" alt="The Cognoscenti album cover" width="700" height="700" loading="lazy" />
+                <span class="track__tag">Release</span>
+                <div class="track__playhead"></div>
+              </div>
+              <div class="track__body">
+                <h3>The Cognoscenti</h3>
+                <p>David Asher — full album on Bandcamp.</p>
+                <div class="track__actions">
+                  <button type="button" class="btn btn--ghost btn--sm" data-track-play aria-pressed="false">Preview</button>
+                  <a class="btn btn--primary btn--sm" href="https://davidasher.bandcamp.com/album/the-cognoscenti" target="_blank" rel="noopener noreferrer">Bandcamp</a>
+                </div>
+                <div class="track__stream">
+                  <a class="is-empty" href="#" data-service="spotify" title="Add Spotify link">Spotify</a>
+                  <a class="is-empty" href="#" data-service="apple" title="Add Apple Music link">Apple Music</a>
+                </div>
+              </div>
+            </article>
+
+            <article class="track" data-tilt data-reveal data-reveal-delay="2" style="--playhead: 0%">
+              <div class="track__art">
+                <img src="assets/covers/the-cruel.jpg" alt="The Cruel album cover" width="700" height="700" loading="lazy" />
+                <span class="track__tag">Release</span>
+                <div class="track__playhead"></div>
+              </div>
+              <div class="track__body">
+                <h3>The Cruel</h3>
+                <p>David Asher — full album on Bandcamp.</p>
+                <div class="track__actions">
+                  <button type="button" class="btn btn--ghost btn--sm" data-track-play aria-pressed="false">Preview</button>
+                  <a class="btn btn--primary btn--sm" href="https://davidasher.bandcamp.com/album/the-cruel" target="_blank" rel="noopener noreferrer">Bandcamp</a>
+                </div>
+                <div class="track__stream">
+                  <a class="is-empty" href="#" data-service="spotify" title="Add Spotify link">Spotify</a>
+                  <a class="is-empty" href="#" data-service="apple" title="Add Apple Music link">Apple Music</a>
+                </div>
+              </div>
+            </article>
+
+            <article class="track" data-tilt data-reveal data-reveal-delay="3" style="--playhead: 0%">
+              <div class="track__art">
+                <img src="assets/covers/other-earth.jpg" alt="Other Earth album cover" width="700" height="700" loading="lazy" />
+                <span class="track__tag">Release</span>
+                <div class="track__playhead"></div>
+              </div>
+              <div class="track__body">
+                <h3>Other Earth</h3>
+                <p>David Asher — full album on Bandcamp.</p>
+                <div class="track__actions">
+                  <button type="button" class="btn btn--ghost btn--sm" data-track-play aria-pressed="false">Preview</button>
+                  <a class="btn btn--primary btn--sm" href="https://davidasher.bandcamp.com/album/other-earth" target="_blank" rel="noopener noreferrer">Bandcamp</a>
+                </div>
+                <div class="track__stream">
+                  <a class="is-empty" href="#" data-service="spotify" title="Add Spotify link">Spotify</a>
+                  <a class="is-empty" href="#" data-service="apple" title="Add Apple Music link">Apple Music</a>
+                </div>
+              </div>
+            </article>
+
+            <article class="track" data-tilt data-reveal data-reveal-delay="1" style="--playhead: 0%">
+              <div class="track__art">
+                <img src="assets/covers/brooklyn.jpg" alt="Brooklyn 2025 remaster album cover" width="700" height="700" loading="lazy" />
+                <span class="track__tag">2025 remaster</span>
+                <div class="track__playhead"></div>
+              </div>
+              <div class="track__body">
+                <h3>Brooklyn</h3>
+                <p>2025 remaster — Bandcamp.</p>
+                <div class="track__actions">
+                  <button type="button" class="btn btn--ghost btn--sm" data-track-play aria-pressed="false">Preview</button>
+                  <a class="btn btn--primary btn--sm" href="https://davidasher.bandcamp.com/album/brooklyn-2025-remaster" target="_blank" rel="noopener noreferrer">Bandcamp</a>
+                </div>
+                <div class="track__stream">
+                  <a class="is-empty" href="#" data-service="spotify" title="Add Spotify link">Spotify</a>
+                  <a class="is-empty" href="#" data-service="apple" title="Add Apple Music link">Apple Music</a>
+                </div>
+              </div>
+            </article>
+
+            <article class="track" data-tilt data-reveal data-reveal-delay="2" style="--playhead: 0%">
+              <div class="track__art">
+                <img src="assets/covers/days-to-come.jpg" alt="Days to Come album cover" width="700" height="700" loading="lazy" />
+                <span class="track__tag">Release</span>
+                <div class="track__playhead"></div>
+              </div>
+              <div class="track__body">
+                <h3>Days to Come</h3>
+                <p>David Asher — full album on Bandcamp.</p>
+                <div class="track__actions">
+                  <button type="button" class="btn btn--ghost btn--sm" data-track-play aria-pressed="false">Preview</button>
+                  <a class="btn btn--primary btn--sm" href="https://davidasher.bandcamp.com/album/days-to-come" target="_blank" rel="noopener noreferrer">Bandcamp</a>
+                </div>
+                <div class="track__stream">
+                  <a class="is-empty" href="#" data-service="spotify" title="Add Spotify link">Spotify</a>
+                  <a class="is-empty" href="#" data-service="apple" title="Add Apple Music link">Apple Music</a>
+                </div>
+              </div>
+            </article>
+
+            <article class="track" data-tilt data-reveal data-reveal-delay="3" style="--playhead: 0%">
+              <div class="track__art">
+                <img src="assets/covers/this-floor.jpg" alt="This Floor 2025 remaster album cover" width="700" height="700" loading="lazy" />
+                <span class="track__tag">2025 remaster</span>
+                <div class="track__playhead"></div>
+              </div>
+              <div class="track__body">
+                <h3>This Floor</h3>
+                <p>2025 remaster — Bandcamp.</p>
+                <div class="track__actions">
+                  <button type="button" class="btn btn--ghost btn--sm" data-track-play aria-pressed="false">Preview</button>
+                  <a class="btn btn--primary btn--sm" href="https://davidasher.bandcamp.com/album/this-floor-2025-remaster" target="_blank" rel="noopener noreferrer">Bandcamp</a>
+                </div>
+                <div class="track__stream">
+                  <a class="is-empty" href="#" data-service="spotify" title="Add Spotify link">Spotify</a>
+                  <a class="is-empty" href="#" data-service="apple" title="Add Apple Music link">Apple Music</a>
+                </div>
+              </div>
+            </article>
+
+            <article class="track" data-tilt data-reveal data-reveal-delay="1" style="--playhead: 0%">
+              <div class="track__art">
+                <img src="assets/covers/betty.jpg" alt="Betty 2025 remaster album cover" width="700" height="700" loading="lazy" />
+                <span class="track__tag">2025 remaster</span>
+                <div class="track__playhead"></div>
+              </div>
+              <div class="track__body">
+                <h3>Betty</h3>
+                <p>2025 remaster — Bandcamp.</p>
+                <div class="track__actions">
+                  <button type="button" class="btn btn--ghost btn--sm" data-track-play aria-pressed="false">Preview</button>
+                  <a class="btn btn--primary btn--sm" href="https://davidasher.bandcamp.com/album/betty-2025-remaster" target="_blank" rel="noopener noreferrer">Bandcamp</a>
+                </div>
+                <div class="track__stream">
+                  <a class="is-empty" href="#" data-service="spotify" title="Add Spotify link">Spotify</a>
+                  <a class="is-empty" href="#" data-service="apple" title="Add Apple Music link">Apple Music</a>
+                </div>
+              </div>
+            </article>
+
+            <article class="track" data-tilt data-reveal data-reveal-delay="2" style="--playhead: 0%">
+              <div class="track__art">
+                <img src="assets/covers/stilts.jpg" alt="Stilts by David Asher album cover" width="700" height="700" loading="lazy" />
+                <span class="track__tag">2025 remaster</span>
+                <div class="track__playhead"></div>
+              </div>
+              <div class="track__body">
+                <h3>Stilts by David Asher</h3>
+                <p>NY collective era — remastered.</p>
+                <div class="track__actions">
+                  <button type="button" class="btn btn--ghost btn--sm" data-track-play aria-pressed="false">Preview</button>
+                  <a class="btn btn--primary btn--sm" href="https://davidasher.bandcamp.com/album/stilts-by-david-asher-2025-remaster" target="_blank" rel="noopener noreferrer">Bandcamp</a>
+                </div>
+                <div class="track__stream">
+                  <a class="is-empty" href="#" data-service="spotify" title="Add Spotify link">Spotify</a>
+                  <a class="is-empty" href="#" data-service="apple" title="Add Apple Music link">Apple Music</a>
+                </div>
+              </div>
+            </article>
+
+            <article class="track" data-tilt data-reveal data-reveal-delay="3" style="--playhead: 0%">
+              <div class="track__art">
+                <img src="assets/covers/everybody-knows.jpg" alt="Everybody Knows 2025 remaster album cover" width="700" height="700" loading="lazy" />
+                <span class="track__tag">2025 remaster</span>
+                <div class="track__playhead"></div>
+              </div>
+              <div class="track__body">
+                <h3>Everybody Knows</h3>
+                <p>2025 remaster — Bandcamp.</p>
+                <div class="track__actions">
+                  <button type="button" class="btn btn--ghost btn--sm" data-track-play aria-pressed="false">Preview</button>
+                  <a class="btn btn--primary btn--sm" href="https://davidasher.bandcamp.com/album/everybody-knows-2025-remaster" target="_blank" rel="noopener noreferrer">Bandcamp</a>
+                </div>
+                <div class="track__stream">
+                  <a class="is-empty" href="#" data-service="spotify" title="Add Spotify link">Spotify</a>
+                  <a class="is-empty" href="#" data-service="apple" title="Add Apple Music link">Apple Music</a>
+                </div>
+              </div>
+            </article>
+
+            <article class="track" data-tilt data-reveal data-reveal-delay="1" style="--playhead: 0%">
+              <div class="track__art">
+                <img src="assets/covers/sandy-gilmour.jpg" alt="Sandy Gilmour and the Blood Sucking Vampires album cover" width="700" height="700" loading="lazy" />
+                <span class="track__tag">2025 remaster</span>
+                <div class="track__playhead"></div>
+              </div>
+              <div class="track__body">
+                <h3>Sandy Gilmour…</h3>
+                <p>Blood Sucking Vampires — remaster.</p>
+                <div class="track__actions">
+                  <button type="button" class="btn btn--ghost btn--sm" data-track-play aria-pressed="false">Preview</button>
+                  <a class="btn btn--primary btn--sm" href="https://davidasher.bandcamp.com/album/sandy-gilmour-and-the-blood-sucking-vampires-2025-remaster" target="_blank" rel="noopener noreferrer">Bandcamp</a>
+                </div>
+                <div class="track__stream">
+                  <a class="is-empty" href="#" data-service="spotify" title="Add Spotify link">Spotify</a>
+                  <a class="is-empty" href="#" data-service="apple" title="Add Apple Music link">Apple Music</a>
+                </div>
+              </div>
+            </article>
+
+            <article class="track" data-tilt data-reveal data-reveal-delay="2" style="--playhead: 0%">
+              <div class="track__art">
+                <img src="assets/covers/heather.jpg" alt="Heather 2025 remaster album cover" width="700" height="700" loading="lazy" />
+                <span class="track__tag">2025 remaster</span>
+                <div class="track__playhead"></div>
+              </div>
+              <div class="track__body">
+                <h3>Heather</h3>
+                <p>2025 remaster — Bandcamp.</p>
+                <div class="track__actions">
+                  <button type="button" class="btn btn--ghost btn--sm" data-track-play aria-pressed="false">Preview</button>
+                  <a class="btn btn--primary btn--sm" href="https://davidasher.bandcamp.com/album/heather-2025-remaster" target="_blank" rel="noopener noreferrer">Bandcamp</a>
+                </div>
+                <div class="track__stream">
+                  <a class="is-empty" href="#" data-service="spotify" title="Add Spotify link">Spotify</a>
+                  <a class="is-empty" href="#" data-service="apple" title="Add Apple Music link">Apple Music</a>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- SIGN UP -->
+      <section class="section" id="signup">
+        <div class="wrap">
+          <p class="section__kicker" data-reveal>Sign up</p>
+          <h2 class="section__title" data-reveal>Get in touch</h2>
+          <div class="signup-grid">
+            <aside class="signup-aside" data-reveal>
+              <h3>Feedback &amp; inquiries</h3>
+              <p>
+                Connect, leave feedback on the music, or start a mix / master / engineering
+                conversation — same idea as the Wix form, rebuilt bright and interactive.
+              </p>
+              <div class="meta">
+                <div>
+                  <span>Location</span>
+                  New Jersey, United States
+                </div>
+                <div>
+                  <span>Services</span>
+                  Mixing · Mastering · Engineering
+                </div>
+                <div>
+                  <span>Listen</span>
+                  <a href="https://soundcloud.com/david-asher" target="_blank" rel="noopener noreferrer">SoundCloud</a>
+                  ·
+                  <a href="https://davidasher.bandcamp.com/" target="_blank" rel="noopener noreferrer">Bandcamp</a>
+                </div>
+              </div>
+            </aside>
+
+            <form class="form" id="inquiry-form" data-email="hello@davidasher.music" novalidate data-reveal data-reveal-delay="1">
+              <div class="form-row form-row--2">
+                <div class="field">
+                  <label for="first">First name *</label>
+                  <input id="first" name="first" type="text" autocomplete="given-name" required />
+                </div>
+                <div class="field">
+                  <label for="last">Last name *</label>
+                  <input id="last" name="last" type="text" autocomplete="family-name" required />
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="field">
+                  <label for="email">Email *</label>
+                  <input id="email" name="email" type="email" autocomplete="email" required />
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="field">
+                  <label for="iam">I am a</label>
+                  <select id="iam" name="iam">
+                    <option value="">Choose one</option>
+                    <option value="Director/Producer and I have an immediate need for a project">
+                      Director/Producer and I have an immediate need for a project
+                    </option>
+                    <option value="Director/Producer interested in connecting with new talent">
+                      Director/Producer interested in connecting with new talent
+                    </option>
+                    <option value="Film industry employee always on the lookout for new talent">
+                      Film industry employee always on the lookout for new talent
+                    </option>
+                    <option value="Music lover and you rock, Dave.">Music lover and you rock, Dave.</option>
+                    <option value="Lost soul on the internet super-highway">Lost soul on the internet super-highway</option>
+                    <option value="Independent artist / band">Independent artist / band</option>
+                  </select>
+                  <p class="hint">We use this information for our own internal research to learn who our visitors are.</p>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="field">
+                  <label for="message">Message / feedback</label>
+                  <textarea id="message" name="message" required placeholder="Project details, feedback, or hello…"></textarea>
+                </div>
+              </div>
+              <label class="check">
+                <input type="checkbox" name="newsletter" value="Yes, subscribe me to your newsletter." checked />
+                <span>Yes, subscribe me to your newsletter.</span>
+              </label>
+              <div class="form__actions">
+                <button class="btn btn--primary" type="submit" data-magnetic>Subscribe</button>
+                <p class="form-status" role="status" aria-live="polite"></p>
+              </div>
+            </form>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <section class="spectra-band" aria-label="Spectra">
+      <div class="wrap">
+        <div class="spectra-band__card" data-reveal>
+          <a href="#top" aria-label="Spectra">
+            <img src="assets/custom/spectra-logo.png" alt="Spectra logo" width="400" height="366" loading="lazy" />
+          </a>
+          <p>Spectra</p>
+        </div>
+      </div>
+    </section>
+
+    <footer class="site-footer">
+      <div class="wrap">
+        <div class="footer__row">
+          <div class="footer__brand">
+            David Asher Music
+            <small>Mixing, mastering and engineering. NJ · US</small>
+          </div>
+          <nav class="footer__links" aria-label="Footer">
+            <a href="#about">About</a>
+            <a href="#portfolio">Portfolio</a>
+            <a href="#signup">Sign up</a>
+            <a href="https://soundcloud.com/david-asher" target="_blank" rel="noopener noreferrer">SoundCloud</a>
+            <a href="https://davidasher.bandcamp.com/" target="_blank" rel="noopener noreferrer">Bandcamp</a>
+          </nav>
+        </div>
+        <div class="footer__copy">
+          <span>© <span data-year></span> by David Asher Music</span>
+          <span class="mono">Interactive rebuild · Spectra</span>
+        </div>
+      </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+  </body>
+</html>
