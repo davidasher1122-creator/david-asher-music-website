@@ -746,6 +746,43 @@ body.is-booted .site-footer {
   border-image: linear-gradient(90deg, var(--blue), var(--magenta), var(--green)) 1;
 }
 
+.listen-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 0.85rem 1.5rem;
+}
+
+.listen-head .section__title {
+  margin-bottom: 0;
+}
+
+.listen-jumps {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin: 0 0 0.35rem;
+}
+
+.listen-jumps a {
+  font-family: var(--font-ui);
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: #10131f;
+  background: #fff;
+  border: 2px solid #10131f;
+  border-radius: 999px;
+  padding: 0.5rem 0.8rem;
+}
+
+.listen-jumps a:hover {
+  background: #10131f;
+  color: #fff;
+}
+
 .listen-group {
   font-family: var(--font-ui);
   font-size: 1.35rem;
