@@ -484,10 +484,21 @@
       }
 
       if (stick && typeof opts.onReveal === "function" && !opts._revealed) {
-        revealFrame = (revealFrame + 1) % 8;
-        if (revealFrame === 0 && typeof opts.revealTarget === "function") {
-          const target = opts.revealTarget();
-          if (target && target.w > 0) {
+        const target = typeof opts.revealTarget === "function" ? opts.revealTarget() : null;
+        // A finger crossing the pill unlocks it immediately. The brush is wider
+        // than the old fingertip, so the pad matches that larger touch.
+        const touchPad = Math.max(22, radius * 0.45);
+        let hit =
+          target &&
+          target.w > 0 &&
+          mx > -500 &&
+          mx >= target.x - touchPad &&
+          mx <= target.x + target.w + touchPad &&
+          my >= target.y - touchPad &&
+          my <= target.y + target.h + touchPad;
+        if (!hit) {
+          revealFrame = (revealFrame + 1) % 8;
+          if (revealFrame === 0 && target && target.w > 0) {
             let total = 0;
             let open = 0;
             const pad = 10;
@@ -498,10 +509,34 @@
               total++;
               if (p.stuck) open++;
             }
-            if (total <= 6 || open / total >= 0.18) {
-              opts._revealed = true;
-              opts.onReveal();
-            }
+            hit = total <= 6 || open / total >= 0.18;
+          }
+        }
+        if (hit) {
+          opts._revealed = true;
+          opts.onReveal();
+          const arm = typeof opts.onArm === "function" ? opts.onArm : null;
+          if (arm && pointerDown) {
+            // Pop Enter under the finger, but let this wipe finish. The lift
+            // must not count as the press.
+            const lift = () => {
+              window.removeEventListener("pointerup", lift);
+              window.removeEventListener("pointercancel", lift);
+              const swallow = (ev) => {
+                ev.preventDefault();
+                ev.stopPropagation();
+                window.removeEventListener("click", swallow, true);
+              };
+              window.addEventListener("click", swallow, true);
+              arm();
+              requestAnimationFrame(() => {
+                requestAnimationFrame(() => window.removeEventListener("click", swallow, true));
+              });
+            };
+            window.addEventListener("pointerup", lift);
+            window.addEventListener("pointercancel", lift);
+          } else if (arm) {
+            arm();
           }
         }
       }
@@ -610,8 +645,8 @@
       cellSize: finePointer ? 4 : 5,
       cover: finePointer ? 0.98 : 1,
       opacity: 1,
-      force: finePointer ? 3.0 : 1.05,
-      radius: finePointer ? 155 : 28,
+      force: finePointer ? 3.0 : 1.35,
+      radius: finePointer ? 155 : 52,
       spring: finePointer ? 0.032 : 0.05,
       drag: finePointer ? 0.83 : 0.74,
       interactive: finePointer || showGate,
@@ -619,22 +654,25 @@
       depth: finePointer ? 1.3 : 1,
       drawBaseImage: false,
       pressBoost: finePointer,
-      kick: finePointer ? 5.5 : 2.4,
+      kick: finePointer ? 5.5 : 2.8,
       jitter: finePointer ? 2.2 : 0.45,
       dotScale: finePointer ? 0.38 : 0.62,
       crop: finePointer ? "full" : "center-column",
       stick: showGate,
-      stickDist: 16,
+      stickDist: 11,
       revealTarget: showGate ? revealTarget : null,
       onReveal: showGate
         ? () => document.documentElement.classList.add("is-gate-ready")
+        : null,
+      onArm: showGate
+        ? () => document.documentElement.classList.add("is-gate-live")
         : null,
     });
   }
 
   if (enterBtn instanceof HTMLButtonElement) {
     enterBtn.addEventListener("click", () => {
-      document.documentElement.classList.remove("is-gate", "is-gate-ready");
+      document.documentElement.classList.remove("is-gate", "is-gate-ready", "is-gate-live");
       document.documentElement.classList.add("is-entered");
       sessionStorage.setItem("da-entered", "1");
       window.scrollTo(0, 0);

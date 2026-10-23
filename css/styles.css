@@ -990,13 +990,25 @@ html.is-gate .hero__enter {
   letter-spacing: 0.28em;
   text-transform: uppercase;
   pointer-events: none;
+  transition:
+    background 160ms ease,
+    color 160ms ease,
+    border-color 160ms ease,
+    box-shadow 160ms ease,
+    transform 160ms ease;
 }
 
 html.is-gate.is-gate-ready .hero__enter {
   z-index: 6;
+  background: var(--blue);
+  color: #fff;
+  border-color: #fff;
+  box-shadow: 0 0 0 3px rgba(17, 109, 255, 0.35), 0 10px 32px rgba(17, 109, 255, 0.55);
+  transform: translate(-50%, -50%) scale(1.08);
+}
+
+html.is-gate.is-gate-live .hero__enter {
   pointer-events: auto;
-  background: rgba(8, 10, 20, 0.72);
-  box-shadow: 0 0 28px rgba(255, 255, 255, 0.45);
 }
 
 html.is-touch.is-entered .hero {
