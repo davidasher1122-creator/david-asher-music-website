@@ -2,15 +2,19 @@
 (function () {
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const finePointer = window.matchMedia("(pointer: fine)").matches;
+  const gateDone = sessionStorage.getItem("da-entered") === "1";
+  // Phones open on a full-screen wipe. Reduced motion skips it so Enter is never trapped under a still image.
+  const showGate = !finePointer && !gateDone && !reduceMotion;
   if (!finePointer) {
     document.documentElement.classList.add("is-touch");
+    document.documentElement.classList.add(showGate ? "is-gate" : "is-entered");
     const hint = document.querySelector(".hero__hint");
-    if (hint) hint.textContent = "Touch and drag. Only a fingertip-sized spot dissolves.";
+    if (hint && showGate) hint.textContent = "Wipe the picture to find Enter";
     const heroLabel = document.querySelector("#hero-canvas");
-    if (heroLabel) {
+    if (heroLabel && showGate) {
       heroLabel.setAttribute(
         "aria-label",
-        "Main image. Touch and drag to dissolve a fingertip-sized spot."
+        "Entrance image. Wipe with a finger to reveal Enter."
       );
     }
   }
@@ -181,6 +185,10 @@
     const pressBoost = opts.pressBoost !== false;
     const kick = opts.kick ?? 5.5;
     const jitter = opts.jitter ?? 2.2;
+    const dotScale = opts.dotScale ?? 0.38;
+    const stick = opts.stick === true;
+    const stickDist = opts.stickDist ?? 16;
+    let revealFrame = 0;
 
     /** @type {Array<any>} */
     let particles = [];
@@ -223,13 +231,35 @@
       return loaded[imgIndex % loaded.length];
     }
 
+    function sourceRect(img) {
+      const nw = img.naturalWidth;
+      const nh = img.naturalHeight;
+      if (opts.crop === "center-column") {
+        const colW = nw / 4;
+        return { sx: colW, sy: 0, sw: colW, sh: nh };
+      }
+      if (opts.crop === "center-square") {
+        const side = Math.min(nw, nh);
+        return { sx: (nw - side) / 2, sy: (nh - side) / 2, sw: side, sh: side };
+      }
+      return { sx: 0, sy: 0, sw: nw, sh: nh };
+    }
+
     function layoutImage(img) {
-      const scale = Math.max(w / img.naturalWidth, h / img.naturalHeight) * cover;
-      const dw = img.naturalWidth * scale;
-      const dh = img.naturalHeight * scale;
-      const ix = (w - dw) / 2;
-      const iy = (h - dh) / 2;
-      imgRect = { ix, iy, dw, dh };
+      const src = sourceRect(img);
+      const scale = Math.max(w / src.sw, h / src.sh) * cover;
+      const dw = src.sw * scale;
+      const dh = src.sh * scale;
+      imgRect = {
+        ix: (w - dw) / 2,
+        iy: (h - dh) / 2,
+        dw,
+        dh,
+        sx: src.sx,
+        sy: src.sy,
+        sw: src.sw,
+        sh: src.sh,
+      };
       return imgRect;
     }
 
@@ -249,7 +279,7 @@
       const img = currentImg();
       if (!img || !img.naturalWidth) return;
 
-      const { ix, iy, dw, dh } = layoutImage(img);
+      const { ix, iy, dw, dh, sx, sy, sw, sh } = layoutImage(img);
       const cols = Math.max(8, Math.floor(dw / cellSize));
       const rows = Math.max(8, Math.floor(dh / cellSize));
       const cellW = dw / cols;
@@ -259,7 +289,7 @@
       off.width = cols;
       off.height = rows;
       const octx = off.getContext("2d");
-      octx.drawImage(img, 0, 0, cols, rows);
+      octx.drawImage(img, sx, sy, sw, sh, 0, 0, cols, rows);
 
       let data = null;
       try {
@@ -399,7 +429,7 @@
           const { ix, iy, dw, dh } = layoutImage(img);
           ctx.save();
           ctx.globalAlpha = baseImageOpacity;
-          ctx.drawImage(img, ix, iy, dw, dh);
+          ctx.drawImage(img, imgRect.sx, imgRect.sy, imgRect.sw, imgRect.sh, ix, iy, dw, dh);
           ctx.restore();
         }
       }
@@ -428,21 +458,52 @@
           }
         }
 
-        const home = near ? spring * 0.35 : spring;
-        p.vx += (p.ox - p.x) * home;
-        p.vy += (p.oy - p.y) * home;
-        p.vx *= near ? Math.min(0.94, drag + 0.04) : drag;
-        p.vy *= near ? Math.min(0.94, drag + 0.04) : drag;
+        if (stick && p.stuck) {
+          p.vx *= 0.86;
+          p.vy *= 0.86;
+        } else {
+          const home = near ? spring * 0.35 : spring;
+          p.vx += (p.ox - p.x) * home;
+          p.vy += (p.oy - p.y) * home;
+          p.vx *= near ? Math.min(0.94, drag + 0.04) : drag;
+          p.vy *= near ? Math.min(0.94, drag + 0.04) : drag;
+        }
         p.x += p.vx;
         p.y += p.vy;
+        if (stick && !p.stuck && Math.hypot(p.x - p.ox, p.y - p.oy) > stickDist) {
+          p.stuck = true;
+        }
 
         const scatter = Math.min(1.5, Math.hypot(p.vx, p.vy) / 7);
-        const r = Math.max(1.1, Math.min(p.w, p.h) * 0.38 * (1 + scatter * 0.35));
+        const r = Math.max(1.1, Math.min(p.w, p.h) * dotScale * (1 + scatter * 0.35));
         ctx.beginPath();
         ctx.fillStyle = p.color;
         ctx.globalAlpha = baseOpacity * (0.82 + Math.min(0.18, scatter * 0.12));
         ctx.arc(p.x, p.y, r, 0, Math.PI * 2);
         ctx.fill();
+      }
+
+      if (stick && typeof opts.onReveal === "function" && !opts._revealed) {
+        revealFrame = (revealFrame + 1) % 8;
+        if (revealFrame === 0 && typeof opts.revealTarget === "function") {
+          const target = opts.revealTarget();
+          if (target && target.w > 0) {
+            let total = 0;
+            let open = 0;
+            const pad = 10;
+            for (let i = 0; i < particles.length; i++) {
+              const p = particles[i];
+              if (p.ox < target.x - pad || p.ox > target.x + target.w + pad) continue;
+              if (p.oy < target.y - pad || p.oy > target.y + target.h + pad) continue;
+              total++;
+              if (p.stuck) open++;
+            }
+            if (total <= 6 || open / total >= 0.18) {
+              opts._revealed = true;
+              opts.onReveal();
+            }
+          }
+        }
       }
 
       if (interactive && !globalPointer && mx > -500) {
@@ -531,23 +592,52 @@
   }
 
   const heroCanvas = document.querySelector("#hero-canvas");
+  const enterBtn = document.querySelector("#hero-enter");
   if (heroCanvas instanceof HTMLCanvasElement) {
+    const revealTarget = () => {
+      if (!(enterBtn instanceof HTMLElement)) return null;
+      const canvasBox = heroCanvas.getBoundingClientRect();
+      const buttonBox = enterBtn.getBoundingClientRect();
+      return {
+        x: buttonBox.left - canvasBox.left,
+        y: buttonBox.top - canvasBox.top,
+        w: buttonBox.width,
+        h: buttonBox.height,
+      };
+    };
     createParticleField(heroCanvas, {
       images: ["assets/custom/main-interactive.png"],
-      cellSize: finePointer ? 4 : 3,
+      cellSize: finePointer ? 4 : 5,
       cover: finePointer ? 0.98 : 1,
       opacity: 1,
-      force: finePointer ? 3.0 : 0.72,
-      radius: finePointer ? 155 : 22,
-      spring: finePointer ? 0.032 : 0.08,
+      force: finePointer ? 3.0 : 1.05,
+      radius: finePointer ? 155 : 28,
+      spring: finePointer ? 0.032 : 0.05,
       drag: finePointer ? 0.83 : 0.74,
-      interactive: true,
+      interactive: finePointer || showGate,
       globalPointer: false,
       depth: finePointer ? 1.3 : 1,
       drawBaseImage: false,
       pressBoost: finePointer,
-      kick: finePointer ? 5.5 : 2,
+      kick: finePointer ? 5.5 : 2.4,
       jitter: finePointer ? 2.2 : 0.45,
+      dotScale: finePointer ? 0.38 : 0.62,
+      crop: finePointer ? "full" : "center-column",
+      stick: showGate,
+      stickDist: 16,
+      revealTarget: showGate ? revealTarget : null,
+      onReveal: showGate
+        ? () => document.documentElement.classList.add("is-gate-ready")
+        : null,
+    });
+  }
+
+  if (enterBtn instanceof HTMLButtonElement) {
+    enterBtn.addEventListener("click", () => {
+      document.documentElement.classList.remove("is-gate", "is-gate-ready");
+      document.documentElement.classList.add("is-entered");
+      sessionStorage.setItem("da-entered", "1");
+      window.scrollTo(0, 0);
     });
   }
 
