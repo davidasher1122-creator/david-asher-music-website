@@ -4,6 +4,15 @@
   const finePointer = window.matchMedia("(pointer: fine)").matches;
   if (!finePointer) {
     document.documentElement.classList.add("is-touch");
+    const hint = document.querySelector(".hero__hint");
+    if (hint) hint.textContent = "Touch and drag. Only a fingertip-sized spot dissolves.";
+    const heroLabel = document.querySelector("#hero-canvas");
+    if (heroLabel) {
+      heroLabel.setAttribute(
+        "aria-label",
+        "Main image. Touch and drag to dissolve a fingertip-sized spot."
+      );
+    }
   }
 
   document.querySelectorAll("[data-year]").forEach((el) => {
@@ -163,11 +172,15 @@
     const radiusBase = opts.radius ?? 120;
     const spring = opts.spring ?? 0.045;
     const drag = opts.drag ?? 0.86;
-    const interactive = opts.interactive !== false && finePointer;
+    const interactive = opts.interactive !== false;
     const globalPointer = opts.globalPointer === true;
     const depth = opts.depth ?? 1;
     const drawBaseImage = opts.drawBaseImage === true;
     const baseImageOpacity = opts.baseImageOpacity ?? 0.5;
+    // Desktop keeps the wide hover blast. Touch uses a fixed fingertip radius.
+    const pressBoost = opts.pressBoost !== false;
+    const kick = opts.kick ?? 5.5;
+    const jitter = opts.jitter ?? 2.2;
 
     /** @type {Array<any>} */
     let particles = [];
@@ -341,13 +354,19 @@
           (e) => {
             pointerDown = true;
             onPointerMove(e);
-            blast(mx, my, 2);
+            if (pressBoost) blast(mx, my, 2);
           },
           { passive: true }
         );
-        canvas.addEventListener("pointerup", () => {
+        const releaseTouch = (e) => {
           pointerDown = false;
-        });
+          if (!pressBoost || e.pointerType === "touch") {
+            mx = -9999;
+            my = -9999;
+          }
+        };
+        canvas.addEventListener("pointerup", releaseTouch);
+        canvas.addEventListener("pointercancel", releaseTouch);
         canvas.addEventListener("pointerleave", () => {
           mx = -9999;
           my = -9999;
@@ -390,8 +409,8 @@
         return;
       }
 
-      const radius = pointerDown ? radiusBase * 1.55 : radiusBase;
-      const force = (pointerDown ? 3.4 : 2.2) * forceMul * depth;
+      const radius = pointerDown && pressBoost ? radiusBase * 1.55 : radiusBase;
+      const force = (pointerDown && pressBoost ? 3.4 : 2.2) * forceMul * depth;
 
       for (let i = 0; i < particles.length; i++) {
         const p = particles[i];
@@ -404,8 +423,8 @@
             near = true;
             const falloff = (radius - dist) / radius;
             const f = falloff * force;
-            p.vx += (dx / (dist || 1)) * f * 5.5 + (Math.random() - 0.5) * 2.2;
-            p.vy += (dy / (dist || 1)) * f * 5.5 + (Math.random() - 0.5) * 2.2;
+            p.vx += (dx / (dist || 1)) * f * kick + (Math.random() - 0.5) * jitter;
+            p.vy += (dy / (dist || 1)) * f * kick + (Math.random() - 0.5) * jitter;
           }
         }
 
@@ -427,15 +446,17 @@
       }
 
       if (interactive && !globalPointer && mx > -500) {
+        const inner = pointerDown && pressBoost ? 30 : pressBoost ? 20 : Math.min(20, radiusBase * 0.42);
+        const outer = pointerDown && pressBoost ? 52 : pressBoost ? 38 : Math.min(38, radiusBase * 0.62);
         ctx.beginPath();
-        ctx.arc(mx, my, pointerDown ? 30 : 20, 0, Math.PI * 2);
+        ctx.arc(mx, my, inner, 0, Math.PI * 2);
         ctx.strokeStyle = "rgba(255,255,255,0.7)";
-        ctx.lineWidth = 2;
+        ctx.lineWidth = pressBoost ? 2 : 1;
         ctx.stroke();
         ctx.beginPath();
-        ctx.arc(mx, my, pointerDown ? 52 : 38, 0, Math.PI * 2);
+        ctx.arc(mx, my, outer, 0, Math.PI * 2);
         ctx.strokeStyle = "rgba(218,9,241,0.45)";
-        ctx.lineWidth = 3;
+        ctx.lineWidth = pressBoost ? 3 : 1.25;
         ctx.stroke();
       }
 
@@ -513,17 +534,20 @@
   if (heroCanvas instanceof HTMLCanvasElement) {
     createParticleField(heroCanvas, {
       images: ["assets/custom/main-interactive.png"],
-      cellSize: 4,
-      cover: finePointer ? 0.98 : 0.85,
+      cellSize: finePointer ? 4 : 3,
+      cover: finePointer ? 0.98 : 1,
       opacity: 1,
-      force: finePointer ? 3.0 : 0.7,
-      radius: finePointer ? 155 : 50,
-      spring: 0.032,
-      drag: 0.83,
-      interactive: finePointer,
+      force: finePointer ? 3.0 : 0.72,
+      radius: finePointer ? 155 : 22,
+      spring: finePointer ? 0.032 : 0.08,
+      drag: finePointer ? 0.83 : 0.74,
+      interactive: true,
       globalPointer: false,
-      depth: 1.3,
+      depth: finePointer ? 1.3 : 1,
       drawBaseImage: false,
+      pressBoost: finePointer,
+      kick: finePointer ? 5.5 : 2,
+      jitter: finePointer ? 2.2 : 0.45,
     });
   }
 
@@ -563,19 +587,21 @@
   });
 
   /* ——— Contact form ——— */
-  const form = document.querySelector(".contact-form");
+  const form = document.querySelector("#inquiry-form");
   if (form) {
     form.addEventListener("submit", (e) => {
       e.preventDefault();
       const data = new FormData(form);
-      const name = String(data.get("name") || "").trim();
+      const first = String(data.get("first") || "").trim();
+      const last = String(data.get("last") || "").trim();
+      const name = [first, last].filter(Boolean).join(" ");
       const email = String(data.get("email") || "").trim();
       const iam = String(data.get("iam") || "").trim();
-      const newsletter = data.get("newsletter") ? "yes" : "no";
+      const newsletter = data.get("newsletter") ? String(data.get("newsletter")) : "No newsletter";
       const message = String(data.get("message") || "").trim();
       const statusEl = form.querySelector(".form-status");
 
-      if (!name || !email || !message) {
+      if (!first || !last || !email || !message) {
         if (statusEl) {
           statusEl.textContent = "Please fill in name, email, and message.";
           statusEl.className = "form-status is-error";

@@ -877,6 +877,123 @@ html.is-touch #bg-canvas {
   cursor: default;
 }
 
+html.is-touch .hero,
+html.is-touch .hero__stage {
+  min-height: 0;
+}
+
+/* The front image is a wide picture. On a phone, match that shape so the whole image shows. */
+@media (max-width: 800px) {
+  .hero {
+    min-height: 0;
+  }
+
+  .hero__stage {
+    height: auto;
+    aspect-ratio: 2 / 1;
+  }
+}
+
+html.is-touch .hero__stage {
+  height: auto;
+  aspect-ratio: 2 / 1;
+}
+
+html.is-touch .hero__overlay {
+  padding: 1.15rem 0.7rem 0.65rem;
+}
+
+html.is-touch .hero__brand {
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  margin-bottom: 0.2rem;
+}
+
+html.is-touch .hero__overlay h1 {
+  font-size: 0.92rem;
+  margin-bottom: 0.25rem;
+}
+
+html.is-touch .hero__tag {
+  font-size: 0.64rem;
+  letter-spacing: 0.12em;
+  margin-bottom: 0.4rem;
+}
+
+html.is-touch .hero__actions .btn {
+  padding: 0.45rem 0.75rem;
+  font-size: 0.68rem;
+}
+
 html.is-touch .hero__hint {
-  display: none;
+  display: block;
+  white-space: normal;
+  text-align: center;
+  width: max-content;
+  max-width: calc(100% - 1rem);
+  top: 0.4rem;
+  padding: 0.32rem 0.55rem;
+  font-size: 0.58rem;
+  letter-spacing: 0.04em;
+  line-height: 1.35;
+}
+
+.form-row {
+  display: grid;
+  gap: 0.9rem;
+  margin-bottom: 0.9rem;
+}
+
+.form-status {
+  font-size: 0.9rem;
+  margin-top: 0.75rem;
+}
+
+.form-status.is-success { color: var(--green); }
+.form-status.is-error { color: var(--red); }
+
+.inquiry-form {
+  display: grid;
+  gap: 0.85rem;
+  max-width: 40rem;
+}
+
+.inquiry-form label {
+  display: grid;
+  gap: 0.35rem;
+  font-family: var(--font-ui);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+}
+
+.inquiry-form input,
+.inquiry-form select,
+.inquiry-form textarea {
+  width: 100%;
+  border: 2px solid var(--line);
+  border-radius: 0.75rem;
+  padding: 0.75rem 0.85rem;
+  background: #fff;
+  color: var(--ink);
+  font-size: 1rem;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.inquiry-form .checkbox {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  text-transform: none;
+  letter-spacing: 0;
+  font-size: 0.95rem;
+}
+
+.track__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin-top: 0.35rem;
 }
